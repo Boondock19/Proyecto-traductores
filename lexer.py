@@ -14,7 +14,7 @@ correct_path = os.path.join(directory, file)
 
 # Verificar palabras claves de GCL
 keywords = ['TkDeclare','TkIf','TkFi','TkDo','TkOd','TkFor','TkRof','TkInt',
-            'TkBool', 'TkPrint'
+            'TkBool', 'TkPrint','TkArray'
             ]
 
 # Lista de tokens mas palabras reservadas
@@ -28,11 +28,11 @@ tokens = keywords + ['TkId','TkNum','TkString','TkTrue','TkFalse','TkOBlock',
 # Declaracion de tokens en forma de expresiones regulares
 
 t_ignore = ' [\r\t\f\v ]'
-t_TkBool = r'bool'
+t_TkCBlock = r']\|'
+
 t_TkTrue = r'true'
 t_TkFalse = r'false'
 t_TkOBlock = r'\x7C\x5B'
-t_TkCBlock = r']\|'
 t_TkComma = r','
 t_TkOpenPar = r'\('
 t_TkClosePar = r'\)'
@@ -62,6 +62,8 @@ t_TkConcat = r'\.'
 def t_TkDeclare(t):
     r'declare'
     return t
+
+
 
 def t_TkIf(t):
     r'if'
@@ -93,6 +95,14 @@ def t_TkInt(t):
 
 def t_TkPrint(t): 
     r'print'
+    return t
+
+def t_TkBool(t):
+     r'bool'
+     return t
+
+def t_TkArray(t):
+    r'array'
     return t
 
 def t_COMMENT(t):
