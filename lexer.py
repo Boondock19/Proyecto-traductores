@@ -27,12 +27,11 @@ tokens = keywords + ['TkId','TkNum','TkString','TkTrue','TkFalse','TkOBlock',
 
 # Declaracion de tokens en forma de expresiones regulares
 
-t_ignore = ' [\r\t\f\v ]'
-t_TkCBlock = r']\|'
-
+t_ignore = ' \t'
 t_TkTrue = r'true'
 t_TkFalse = r'false'
 t_TkOBlock = r'\x7C\x5B'
+t_TkCBlock = r'\x5D\x7C'
 t_TkComma = r','
 t_TkOpenPar = r'\('
 t_TkClosePar = r'\)'
@@ -62,7 +61,6 @@ t_TkConcat = r'\.'
 def t_TkDeclare(t):
     r'declare'
     return t
-
 
 
 def t_TkIf(t):
@@ -126,8 +124,10 @@ def t_TkString(t):
     return t
 
 def t_error(t):
-    print("Illegal character '%s'" % t.value[0])
-    print('El codigo ASCII es: ', ord(t.value[0]))
+    if ord(t.value[0]) != 13:
+        print('Este es t en iligal character: %s' % t.value)
+        print("Illegal character '%s'" % t.value[0])
+        print('El codigo ASCII es: ', ord(t.value[0]))
     t.lexer.skip(1)
 
 def t_newline(t):
@@ -148,10 +148,12 @@ data = filePointer.read()
 filePointer.close()
 
 lexer.input(data)
+print(data)
 
 while True:
     token = lexer.token()
     if not token:
+        print('entro aqui con, ', token)
         break
     # print(token)
     print(token.type, token.value, token.lineno, find_column(data,token))
