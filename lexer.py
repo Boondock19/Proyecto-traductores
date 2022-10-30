@@ -7,7 +7,7 @@ import os
 directory = os.getcwd()
 
 # Obtenemos el archivo a leer, deberia ser de los argumentos del programa
-file = 'prueba4.gcl'
+file = 'prueba1.gcl'
 
 # Realizamos un join para obtener el path completo del archivo
 correct_path = os.path.join(directory, file)
@@ -33,6 +33,7 @@ t_TkFalse = r'false'
 t_TkOBlock = r'\x7C\x5B'
 t_TkCBlock = r'\x5D\x7C'
 t_TkComma = r','
+t_TkSoForth = r'\.\.'
 t_TkOpenPar = r'\('
 t_TkClosePar = r'\)'
 t_TkAsig = r':='
@@ -125,9 +126,9 @@ def t_TkString(t):
 
 def t_error(t):
     if ord(t.value[0]) != 13:
-        print('Este es t en iligal character: %s' % t.value)
+        # print('Este es t en iligal character: %s' % t.value)
         print("Illegal character '%s'" % t.value[0])
-        print('El codigo ASCII es: ', ord(t.value[0]))
+        # print('El codigo ASCII es: ', ord(t.value[0]))
     t.lexer.skip(1)
 
 def t_newline(t):
@@ -148,12 +149,19 @@ data = filePointer.read()
 filePointer.close()
 
 lexer.input(data)
-print(data)
 
 while True:
     token = lexer.token()
     if not token:
-        print('entro aqui con, ', token)
         break
     # print(token)
-    print(token.type, token.value, token.lineno, find_column(data,token))
+    match token.type:
+        case 'TkId':
+            print(f'TkId("{token.value}") {token.lineno} {find_column(data,token)}')
+        case 'TkNum':
+            print(f'TkNum({token.value}) {token.lineno} {find_column(data,token)}')
+        case 'TkString':
+            print(f'TkString("{token.value}") {token.lineno} {find_column(data,token)}')
+        case _:
+            print(token.type, token.lineno, find_column(data,token))
+    
