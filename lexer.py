@@ -22,7 +22,7 @@ tokens = keywords + ['TkId','TkNum','TkString','TkTrue','TkFalse','TkOBlock',
                     'TkCBlock','TkSoForth','TkComma','TkOpenPar','TkClosePar',
                     'TkAsig','TkSemicolon','TkArrow', 'TkGuard','TkPlus','TkMinus',
                     'TkMult','TkOr','TkAnd','TkNot','TkLess','TkLeq','TkGeq','TkGreater',
-                    'TkEqual','TkNEqual','TkOBracket','TkCBraquet','TkTwoPoints','TkConcat'
+                    'TkEqual','TkNEqual','TkOBracket','TkCBracket','TkTwoPoints','TkConcat'
                     ]
 
 # Declaracion de tokens en forma de expresiones regulares
@@ -54,7 +54,7 @@ t_TkGreater = r'>'
 t_TkEqual = r'=='
 t_TkNEqual = r'!='
 t_TkOBracket = r'\x5B'
-t_TkCBraquet = r'\x5D'
+t_TkCBracket = r'\x5D'
 t_TkTwoPoints = r':'
 t_TkConcat = r'\.'
 
