@@ -3,20 +3,18 @@ import codecs
 import os
 
 
-print("Funcionando")
-
 # Obtenemos el directorio actual
 directory = os.getcwd()
 
 # Obtenemos el archivo a leer, deberia ser de los argumentos del programa
-file = 'prueba1.gcl'
+file = 'prueba4.gcl'
 
 # Realizamos un join para obtener el path completo del archivo
 correct_path = os.path.join(directory, file)
 
 # Verificar palabras claves de GCL
 keywords = ['TkDeclare','TkIf','TkFi','TkDo','TkOd','TkFor','TkRof','TkInt',
-            'TkBool'
+            'TkBool', 'TkPrint'
             ]
 
 # Lista de tokens mas palabras reservadas
@@ -34,7 +32,7 @@ t_TkBool = r'bool'
 t_TkTrue = r'true'
 t_TkFalse = r'false'
 t_TkOBlock = r'\x7C\x5B'
-# t_TkCBlock = r'\x5D\x7C'
+t_TkCBlock = r']\|'
 t_TkComma = r','
 t_TkOpenPar = r'\('
 t_TkClosePar = r'\)'
@@ -65,10 +63,6 @@ def t_TkDeclare(t):
     r'declare'
     return t
 
-def t_TkCBlock(t):
-    r']\|'
-    return t
-
 def t_TkIf(t):
     r'if'
     return t
@@ -97,9 +91,12 @@ def t_TkInt(t):
     r'int'
     return t
 
+def t_TkPrint(t): 
+    r'print'
+    return t
 
-def T_COMMENT(t):
-    r'\/.*'
+def t_COMMENT(t):
+    r'\/\/.*'
     pass
 
 def t_TkId(t):
@@ -107,8 +104,6 @@ def t_TkId(t):
     if t.value in keywords:
         t.type = t.value
     return t
-
-
 
 def t_TkNum(t):
     r'\d+'
