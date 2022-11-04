@@ -7,7 +7,9 @@ import os
 directory = os.getcwd()
 
 # Obtenemos el archivo a leer, deberia ser de los argumentos del programa
-file = 'prueba1.gcl'
+file = 'prueba12.gcl'
+
+error = False
 
 # Realizamos un join para obtener el path completo del archivo
 correct_path = os.path.join(directory, file)
@@ -127,7 +129,11 @@ def t_TkString(t):
 def t_error(t):
     if ord(t.value[0]) != 13:
         # print('Este es t en iligal character: %s' % t.value)
-        print("Illegal character '%s'" % t.value[0])
+        line = t.lineno
+        col  = find_column(data,t)
+        global error
+        error = True
+        print( f'Error: Unexpected character "{t.value[0]}" in row {line}, column {col}')
         # print('El codigo ASCII es: ', ord(t.value[0]))
     t.lexer.skip(1)
 
@@ -149,12 +155,25 @@ data = filePointer.read()
 filePointer.close()
 
 lexer.input(data)
-
 while True:
+    token = lexer.token()
+    # print(error)
+    if not token:
+        break
+
+lexer = lex.lex()
+
+filePointer = codecs.open(correct_path, "r", "utf-8")
+data = filePointer.read()
+filePointer.close()
+
+lexer.input(data)
+while not error:
+   
     token = lexer.token()
     if not token:
         break
-    # print(token)
+
     match token.type:
         case 'TkId':
             print(f'TkId("{token.value}") {token.lineno} {find_column(data,token)}')
