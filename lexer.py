@@ -19,7 +19,7 @@ if has_gcl:
 
     # Verificar palabras claves de GCL
     keywords = ['TkDeclare','TkIf','TkFi','TkDo','TkOd','TkFor','TkRof','TkInt',
-                'TkBool', 'TkPrint','TkArray'
+                'TkBool', 'TkPrint','TkArray','TkIn','TkTo','TkSkip'
                 ]
 
     # Lista de tokens mas palabras reservadas
@@ -34,7 +34,6 @@ if has_gcl:
 
     t_ignore = ' \t'
     t_TkTrue = r'true'
-    t_TkFalse = r'false'
     t_TkOBlock = r'\x7C\x5B'
     t_TkCBlock = r'\x5D\x7C'
     t_TkComma = r','
@@ -68,6 +67,11 @@ if has_gcl:
         r'declare'
         return t
 
+    def t_TkFalse(t):
+        r'false'
+        return t
+
+ 
 
     def t_TkIf(t):
         r'if'
@@ -92,6 +96,10 @@ if has_gcl:
     def t_TkRof(t):
         r'rof'
         return t
+    
+    def t_TkSkip(t):
+        r'skip'
+        return t
 
     def t_TkInt(t):
         r'int'
@@ -113,11 +121,20 @@ if has_gcl:
         r'\/\/.*'
         pass
 
+    def t_TkIn(t):
+        r'in'
+        return t
+    
+    def t_TkTo(t):
+        r'to'
+        return t
+
     def t_TkId(t):
         r'[a-zA-Z_][a-zA-Z0-9_]*'
         if t.value in keywords:
             t.type = t.value
         return t
+
 
     def t_TkNum(t):
         r'\d+'
@@ -127,9 +144,11 @@ if has_gcl:
     def t_TkString(t):
         # r'\".*\"'
         # t.value = t.value[1:-1]
-        #r'".*?\\[\\\,\"no].*?\"'
+        # r'".*?\\[\\\,\"no].*?\"'
         #r'(["])(?:(?=(\\?))\2.)*?\1'
-        r'"([^"\\]*(\\.[^"\\]*)*)"'
+        # r'"([^"\\]*(\\.[^"\\]*)*)"'
+        # r'(\\[n"\\]*([^"\r\n\\]*)*)'
+        r'"(\\[n"\\]|[^\r\n\\])*?"'
         #print(t)
         return t
 
