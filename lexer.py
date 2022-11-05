@@ -7,7 +7,7 @@ import os
 directory = os.getcwd()
 
 # Obtenemos el archivo a leer, deberia ser de los argumentos del programa
-file = 'prueba7.gcl'
+file = 'prueba6.gcl'
 
 error = False
 
@@ -124,9 +124,10 @@ def t_TkNum(t):
 def t_TkString(t):
     # r'\".*\"'
     # t.value = t.value[1:-1]
-    r'".*?\\[\\\,\"no].*?\"'
+    #r'".*?\\[\\\,\"no].*?\"'
     #r'(["])(?:(?=(\\?))\2.)*?\1'
-    print(t)
+    r'"([^"\\]*(\\.[^"\\]*)*)"'
+    #print(t)
     return t
 
 def t_error(t):
