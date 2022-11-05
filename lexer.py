@@ -7,7 +7,7 @@ import os
 directory = os.getcwd()
 
 # Obtenemos el archivo a leer, deberia ser de los argumentos del programa
-file = 'prueba12.gcl'
+file = 'prueba7.gcl'
 
 error = False
 
@@ -122,8 +122,11 @@ def t_TkNum(t):
     return t
 
 def t_TkString(t):
-    r'\".*\"'
-    t.value = t.value[1:-1]
+    # r'\".*\"'
+    # t.value = t.value[1:-1]
+    r'".*?\\[\\\,\"no].*?\"'
+    #r'(["])(?:(?=(\\?))\2.)*?\1'
+    print(t)
     return t
 
 def t_error(t):
@@ -180,7 +183,7 @@ while not error:
         case 'TkNum':
             print(f'TkNum({token.value}) {token.lineno} {find_column(data,token)}')
         case 'TkString':
-            print(f'TkString("{token.value}") {token.lineno} {find_column(data,token)}')
+            print(f'TkString({token.value}) {token.lineno} {find_column(data,token)}')
         case _:
             print(token.type, token.lineno, find_column(data,token))
     
