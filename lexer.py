@@ -11,8 +11,6 @@ directory = os.getcwd()
 file = sys.argv[1]
 has_gcl = file.endswith('.gcl')
 
-print(f'Leyendo archivo: {file}  Termina con .glc ? {has_gcl} ')
-
 error = False
 
 if has_gcl:
